@@ -11,7 +11,7 @@ public class ColecaoArtigo {
 		String usuario_endereco = "Rua Maria Cecília, 181-E, Rio Sena- 40715400- Salvador, Bahia";
 		String usuario_telefone = gerarTelefone();
 		String usuario_email = nome + "@gmail.com";
-		String usuario_local_trabalho = "Horizon CI";
+		String usuario_local_trabalho = gerarLocalTrabalho();
 		int usuario_is_revisor = rand.nextInt(1);;
 		int usuario_is_autor = rand.nextInt(1);
 
@@ -87,6 +87,20 @@ public class ColecaoArtigo {
 		return nomes[qual_nome];
 	}
 
+	private String gerarLocalTrabalho(){
+		String[] localTrabalho = {"UNEB", "Horizon CI", "Space Rocket", "ATENTO",
+				"TCE-BA", "TJ-BA", "MP-BA", "TecnoTrends",
+				"Avansys", "Inove Serviços", "Policia Militar da bahia",
+				"fapesb", "Bigpoint", "Riot Games", "Brasilgas",
+				"Coelba", "Embasa", "Prefeitura de Salvador", "Costa Produções",
+				"Simaw Tecnologias", "Elevii Soluções", "Fortalezza Biscoitos", "Kondzilla Produções",
+				"Oi fibra", "Tim Live", "M Estetica Studio De Beleza", "Hinodê","Avon","Caratch","Caromni","Stepegg","Caraipi","Netelectra","Cafesea","Cafefire","Woodtap","Reelectra","Cafejar","Cafemirror","Electra","TheCar","Group","Bestofstep","Enginecafe","Nuelectra","Carer","Softdude","Woodcell","Targetwood","Cardecu","Stephq","Sweetwiki","Hubwood","Wowstep","Rreget","Telesweet","Woodoffers","Steploop","Carroch","Cabinsoft","Electraall","Carceag","Ranchsoft","Softjunky","Woodrace","Titanicpower","Trycup","Goldalpha","Zippyhigh","Leaderhigh","Herowild","Timeneo","Vipever","Funvita","Nextwavefashion","Safetyvita","Vitaprofessional","Surfacefashion","Hugecake","Morenova","Joyprofessional","Availgol","Primalteam","Winnerelite","Rightelite","Meelite","Dayneo","Novagenius","Onlynova"};
+
+		Random rand = new Random();
+		int qual_nome = rand.nextInt(localTrabalho.length);
+		return localTrabalho[qual_nome];
+	}
+
 	private String gerarTelefone(){
 		Random rand = new Random();
 		String ddd = "0"+ rand.ints(10,90);
@@ -105,15 +119,6 @@ public class ColecaoArtigo {
 				"Rua das missoes", "Travessa Niveladora", "Rua do aprendizado", "Travessa de Oracoes",
 				"Rua Isabel", "Travessa Marcus Drumond", "Avenida da desilusao", "Rua da tristeza",
 				"Caminho das arvores", "Garcia", "Santa Luzia", "Rua do Telemaco","Rua da Odisseia"};
-
-
-		String[] localTrabalho = {"UNEB", "Horizon CI", "Space Rocket", "ATENTO",
-				"TCE-BA", "TJ-BA", "MP-BA", "TecnoTrends",
-				"Avansys", "Inove Serviços", "Policia Militar da bahia",
-				"fapesb", "Bigpoint", "Riot Games", "Brasilgas",
-				"Coelba", "Embasa", "Prefeitura de Salvador", "Costa Produções",
-				"Simaw Tecnologias", "Elevii Soluções", "Fortalezza Biscoitos", "Kondzilla Produções",
-				"Oi fibra", "Tim Live", "M Estetica Studio De Beleza", "Hinodê","Avon"};
 
 		String[] numeroCartao = {"1152.2555-15", "5132.2335-25", "3142.2885-72", "3192.2255-17",
 				"8522.2327-83", "4823.5316-18", "5227.2922-74", "1525.2858-96",
