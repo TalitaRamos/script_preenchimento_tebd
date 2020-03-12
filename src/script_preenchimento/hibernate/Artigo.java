@@ -104,4 +104,17 @@ public class Artigo {
     public void setRevisao(Revisao revisao) {
         this.revisao = revisao;
     }
+
+    @Override
+    public String toString() {
+        return "Artigo{" +
+                "artigo_id=" + artigo_id +
+                ", artigo_titulo='" + artigo_titulo + '\'' +
+                ", artigo_resumo='" + artigo_resumo + '\'' +
+                ", artigo_arquivo='" + artigo_arquivo + '\'' +
+                ", artigo_confirma_submissao=" + artigo_confirma_submissao +
+                ", artigo_qtd_revisores=" + artigo_qtd_revisores +
+                ", artigo_media=" + artigo_media +
+                '}';
+    }
 }

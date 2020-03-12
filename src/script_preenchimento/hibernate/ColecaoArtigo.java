@@ -2,6 +2,33 @@ package script_preenchimento.hibernate;
 import java.util.*;
 
 public class ColecaoArtigo {
+	public static final int ADICIONAR = 1;
+	public static final int PREENCHER = 2;
+	private static void preencherBanco(ColecaoArtigo cp){
+		try {
+			//ADICIONAR USUÁRIOS
+//		    for(int i=0;i<3000;i++){
+//                cp.AdicionarUsuario();
+//                System.out.println("usuario: "+i);
+//            }
+			UsuarioController con = new UsuarioController();
+		    List<Usuario>usuarioList = con.findAll();
+		    //ADICONAR CARTÕES
+		    for(int j=0;j<usuarioList.size();j++){
+				Cartao cartao = cp.AdicionarCartao(usuarioList.get(j));
+				con.AdicionarUsuarioCartao(usuarioList.get(j),cartao);
+			}
+		    con.fechar();
+		    //ADICONAR ARTIGOS
+		    for(int l=0;l<1000;l++){
+				cp.AdicionarArtigo(l);
+			}
+//			cp.AdicionarArtigo(4);
+//			cp.AdicionarRevisao();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void AdicionarUsuario()throws Exception{
 		Random rand = new Random();
@@ -12,41 +39,119 @@ public class ColecaoArtigo {
 		String usuario_telefone = gerarTelefone();
 		String usuario_email = nome + "@gmail.com";
 		String usuario_local_trabalho = gerarLocalTrabalho();
-		int usuario_is_revisor = rand.nextInt(1);;
-		int usuario_is_autor = rand.nextInt(1);
+		int usuario_is_revisor = rand.nextInt(2);
+		int usuario_is_autor = rand.nextInt(2);
 
 		UsuarioController con = new UsuarioController();
 		Usuario a = new Usuario(usuario_nome,usuario_endereco,usuario_telefone,usuario_email,usuario_local_trabalho,usuario_is_revisor,usuario_is_autor);
+		//System.out.println(a.toString());
 		con.salvarUsuario(a);
 		con.fechar();
 	}
 
-	public void AdicionarArtigo() throws Exception {
-		ArtigoController artCon = new ArtigoController();
-		String artigo_titulo = "A evolução dos dinossauros no período cretácio";
-		String artigo_resumo = " É claro que a revolução dos costumes promove a alavancagem do remanejamento dos quadros funcionais. Nunca é demais lembrar o peso e o significado destes problemas, uma vez que a complexidade dos estudos efetuados não pode mais se dissociar das diretrizes de desenvolvimento para o futuro. O empenho em analisar o julgamento imparcial das eventualidades assume importantes posições no estabelecimento do sistema de participação geral.";
-		String artigo_arquivo = "A evolução dos dinossauros no período cretácio";
-		int artigo_confirma_submissao = 1;
-		int artigo_qtd_revisores=0;
-		float artigo_media = 0;
+	public void AdicionarUsuarioCmd()throws Exception{
+		Usuario p;
+		String opcao;
+		UsuarioController con = new UsuarioController();
+		do {
+			System.out.println("Adicionar Usuário:");
+			System.out.println("-------------------");
+			System.out.print("Nome:");
+			String usuario_nome = Console.readLine();
+			System.out.print("Endereço:");
+			String usuario_endereco = Console.readLine();
+			System.out.print("Telefone:");
+			String usuario_telefone = Console.readLine();
+			System.out.print("Email:");
+			String usuario_email = Console.readLine();
+			System.out.print("Local de Trabalho:");
+			String usuario_local_trabalho = Console.readLine();
+			System.out.print("É revisor:");
+			int usuario_is_revisor = Console.readLine();
+			Usuario a = new Usuario(usuario_nome,usuario_endereco,usuario_telefone,usuario_email,usuario_local_trabalho,usuario_is_revisor,0);
 
+			con.salvarUsuario(a);
+			this.addCartao(a);
+
+			System.out.print("Deseja Adicionar mais um Usuário? [S|N]: ");
+			opcao = Console.readLine();
+		} while(opcao.compareTo("S") == 0);
+		con.fechar();
+	}
+
+	public void addCartao(Usuario a) throws Exception {
+		CartaoController cartaoController = new CartaoController();
+		System.out.println("Adicionar Cartao:");
+		System.out.println("-------------------");
+		System.out.print("Número do Cartão:");
+		String numero_cartao = Console.readLine();
+		System.out.print("Validade:");
+		String validade_cartao = Console.readLine();
+		System.out.print("Marcao:");
+		String marcaCartao = Console.readLine();
+
+		Cartao cartao = new Cartao(numero_cartao, validade_cartao,marcaCartao,a);
+		cartaoController.salvarCartao(cartao);
+		System.out.println(cartao.toString());
+		cartaoController.fechar();
+	}
+
+	public void AdicionarArtigo(int number) throws Exception {
 		Random rand = new Random();
-		int submissao = rand.nextInt(1);//usar para se o artigo foi submetido
-		int qtd_rev = rand.nextInt(5);//usar para saber a quantidade de revisores
+		ArtigoController artCon = new ArtigoController();
 
-		Artigo artigo = new Artigo(artigo_titulo,artigo_resumo,artigo_arquivo,artigo_confirma_submissao,artigo_qtd_revisores,artigo_media);
-		artCon.salvarArtigo(artigo);
+		String artigo_titulo = "Avaliação vestibular computadorizada de pacientes com cinetose" + number;
+		String artigo_resumo = " É claro que a revolução dos costumes promove a alavancagem do remanejamento dos quadros funcionais. Nunca é demais lembrar o peso e o significado destes problemas, uma vez que a complexidade dos estudos efetuados não pode mais se dissociar das diretrizes de desenvolvimento para o futuro. O empenho em analisar o julgamento imparcial das eventualidades assume importantes posições no estabelecimento do sistema de participação geral.";
+		String artigo_arquivo = "c:/pagina/biblioteca/fpdf/font/artigo_"+artigo_titulo.trim().replaceAll(" ", "_")+".pdf";
+		int artigo_confirma_submissao = rand.nextInt(2);;
+		int artigo_qtd_revisores = rand.nextInt(6);
+		double artigo_media = (Math.random() * (10 - 1 + 1) + 1);
+
+		Artigo artigo = new Artigo(artigo_titulo,artigo_resumo,artigo_arquivo,artigo_confirma_submissao,artigo_qtd_revisores, (float) artigo_media);
+		//System.out.println(artigo);
+		//artCon.salvarArtigo(artigo);
 		artCon.fechar();
 	}
 
-	private void preencherBanco(){
-		ColecaoArtigo cp = new ColecaoArtigo();
-		try {
-			cp.AdicionarUsuario();
-		} catch (Exception e) {
-			e.printStackTrace();
+	public Cartao AdicionarCartao(Usuario usuario) throws Exception {
+		Random rand = new Random();
+		CartaoController carCon = new CartaoController();
+
+		String[] marcaCartao = {"Visa", "Mastercard", "Cielo", "Golden","American Express","Aura", "Elo", "Hipercard", "MasterCard", "Sorocred", "Visa", "Cartão BNDES", "Diners Club"};
+		String numero_cartao = "";
+		int contador = 0;
+		for(int i=0;i<16;i++){
+			contador++;
+			if(contador == 4){
+				numero_cartao = numero_cartao + String.valueOf(rand.nextInt(9)) + " ";
+				contador = 0;
+			}else{
+				numero_cartao = numero_cartao + String.valueOf(rand.nextInt(9));
+			}
 		}
+		String validade_cartao = String.valueOf(aleatoriar(1,12)) + "\\"+String.valueOf(aleatoriar(2022,2050));
+		int qual_marca = rand.nextInt(marcaCartao.length);
+
+		Cartao cartao = new Cartao(numero_cartao, validade_cartao,marcaCartao[qual_marca],usuario);
+		System.out.println(cartao.toString());
+		carCon.fechar();
+		return cartao;
 	}
+
+	public void AdicionarRevisao() throws Exception{
+        Random rand = new Random();
+        String palavras[]={"barraca","barriga","burro","cachorro","carro","churrasco","corrida","corrupto","errado","erro","ferrado","ferradura","ferro","garra","garrafa","gorro","horrível","irritado","jarra","serra","serrote","sorriso","terremoto","torre","bateria","cadeira","camarão","coleira","coroa","faqueiro","feira","geladeira","gorila","jacaré","lírio","madeira","muro","pera","periquito","picareta","pirata","pirueta","tabuleiro","tubarão","zero","armário","árvore","barba","barbatana","barco","borboleta","calor","carteira","cartola","catorze","cobertor","colar","corda","formiga","garfo","guardanapo","harpa","margarida","martelo","partir","porta","ralador","revólver","sorvete","tartaruga","torneira","torta","urso","verdade","verde","alegre","braço","bravo","brinco","bruxa","bruxaria","cravo","creme","crocodilo","cruzado","dragão","estrela","fruta","grande","gravata","graveto","grilo","igreja","lágrima","livro","madrugada","pedra","praia","prato","prédio","prego","primavera","refresco","trela","três","trevo","truque","zebra","assado","assadura","assobio","massa","missa","nosso","osso","passado","passagem","pássaro","passeio","passo","pêssego","pessoa","pressa","sessenta","sossegado","sossego","tosse","tossir","vassoura","capacete","cebola","cedo","cego","ceia","cena","cenoura","cereja","cesta","cidade","cigano","cigarro","cinema","circo","cisme","hélice","Lúcia","piscina","avião","balão","botão","camarão","caminhão","cidadão","dragão","feijão","fogão","irmão","leão","limão","mamão","melão","pavão","pião","televisão","tubarão","algema","colégio","frigideira","gelado","gelatina","gelo","gema","gêmeo","general","Gilberto","ginásio","girafa","girassol","mágico","página","relógio","tigela","vegetal"};
+        double revisao_nota = (Math.random() * (10 - 1 + 1) + 1);
+        Date revisao_data_envio = new Date();
+        String comentario = "";
+        int quantas_palavras = rand.nextInt();
+        for(int i=0;i<quantas_palavras;i++){
+            int qual_nome = rand.nextInt(palavras.length);
+            comentario = comentario + " " + palavras[qual_nome];
+        }
+
+        Revisao revisao = new Revisao((float)revisao_nota,revisao_data_envio,comentario);
+    }
 
 	private String gerarNomes(){
 		String[] nomes = {"Lucas", "Mateus", "Tiago", "Talita",
@@ -76,7 +181,6 @@ public class ColecaoArtigo {
 
 	private String gerarEndereco(){
 		Random rand = new Random();
-		// "Rua Maria Cecília, 181-E, Rio Sena- 40715400- Salvador, Bahia";
 		String[]ruas={};
 		int numero = rand.nextInt(300);
 		String[]letras={"-A","-B","-C","-D","-E","-F","-G","-H","-I","-L","-M","-N","-O","-P","-Q","-R","-S","-T","-V","-X","-Z"};
@@ -84,13 +188,16 @@ public class ColecaoArtigo {
 		String[] cidades = {"Abaira","Abare","Acajutiba","Adustina","Agua Fria","Aiquara","Alagoinhas","Alcobaca","Almadina","Amargosa","Amelia Rodrigues","America Dourada","Anage","Andarai","Andorinha","Angical","Anguera","Antas","Antonio Cardoso","Antonio Goncalves","Apora","Apuarema","Aracas","Aracatu","Araci","Aramari","Arataca","Aratuipe","Aurelino Leal","Baianopolis","Baixa Grande","Banzae","Barra da Estiva","Barra do Choca","Barra do Mendes","Barra do Rocha","Barra","Barreiras","Barro Alto","Barro Preto","Belmonte","Belo Campo","Biritinga","Boa Nova","Boa Vista do Tupim","Bom Jesus da Lapa","Bom Jesus da Serra","Boninal","Bonito","Boquira","Botupora","Brejoes","Brejolandia","Brotas de Macaubas","Brumado","Buerarema","Buritirama","Caatiba","Cabaceiras do Paraguacu","Cachoeira","Cacule","Caem","Caetanos","Caetite","Cafarnaum","Cairu","Caldeirao Grande","Camacan","Camacari","Camamu","Campo Alegre de Lourdes","Campo Formoso","Canapolis","Canarana","Canavieiras","Candeal","Candeias","Candiba","Candido Sales","Cansancao","Canudos","Capela do Alto Alegre","Capim Grosso","Caraibas","Caravelas","Cardeal da Silva","Carinhanha","Casa Nova","Castro Alves","Catolandia","Catu","Caturama","Central","Chorrocho","Cicero Dantas","Cipo","Coaraci","Cocos","Conceicao da Feira","Conceicao do Almeida","Conceicao do Coite","Conceicao do Jacuipe","Conde","Condeuba","Contendas do Sincora","Coracao de Maria","Cordeiros","Coribe","Coronel Joao Sa","Correntina","Cotegipe","Cravolandia","Crisopolis","Cristopolis","Cruz das Almas","Curaca","Dario Meira","Dias d'Avila","Dom Basilio","Dom Macedo Costa","Elisio Medrado","Encruzilhada","Entre Rios","Erico Cardoso","Esplanada","Euclides da Cunha","Eunapolis","Fatima","Feira da Mata","Feira de Santana","Filadelfia","Firmino Alves","Floresta Azul","Formosa do Rio Preto","Gandu","Gaviao","Gentio do Ouro","Gloria","Gongogi","Governador Mangabeira","Guajeru","Guanambi","Guaratinga","Heliopolis","Iacu","Ibiassuce","Ibicarai","Ibicoara","Ibicui","Ibipeba","Ibipitanga","Ibiquera","Ibirapitanga","Ibirapua","Ibirataia","Ibitiara","Ibitita","Ibotirama","Ichu","Igapora","Igrapiuna","Iguai","Ilheus","Inhambupe","Ipecaeta","Ipiau","Ipira","Ipupiara","Irajuba","Iramaia","Iraquara","Irara","Irece","Itabela","Itaberaba","Itabuna","Itacare","Itaete","Itagi","Itagiba","Itagimirim","Itaguacu da Bahia","Itaju do Colonia","Itajuipe","Itamaraju","Itamari","Itambe","Itanagra","Itanhem","Itaparica","Itape","Itapebi","Itapetinga","Itapicuru","Itapitanga","Itaquara","Itarantim","Itatim","Itirucu","Itiuba","Itororo","Ituacu","Itubera","Iuiu","Jaborandi","Jacaraci","Jacobina","Jaguaquara","Jaguarari","Jaguaripe","Jandaira","Jequie","Jeremoabo","Jiquirica","Jitauna","Joao Dourado","Juazeiro","Jucurucu","Jussara","Jussari","Jussiape","Lafaiete Coutinho","Lagoa Real","Laje","Lajedao","Lajedinho","Lajedo do Tabocal","Lamarao","Lapao","Lauro de Freitas","Lencois","Licinio de Almeida","Livramento do Brumado","Macajuba","Macarani","Macaubas","Macurure","Madre de Deus","Maetinga","Maiquinique","Mairi","Malhada de Pedras","Malhada","Manoel Vitorino","Mansidao","Maracas","Maragogipe","Marau","Marcionilio Souza","Mascote","Mata de Sao Joao","Matina","Medeiros Neto","Miguel Calmon","Milagres","Mirangaba","Mirante","Monte Santo","Morpara","Morro do Chapeu","Mortugaba","Mucuge","Mucuri","Mulungu do Morro","Mundo Novo","Muniz Ferreira","Muquem de Sao Francisco","Muritiba","Mutuipe","Nazare","Nilo Pecanha","Nordestina","Nova Canaa","Nova Fatima","Nova Ibia","Nova Itarana","Nova Redencao","Nova Soure","Nova Vicosa","Novo Horizonte","Novo Triunfo","Olindina","Oliveira dos Brejinhos","Ouricangas","Ourolandia","Palmas de Monte Alto","Palmeiras","Paramirim","Paratinga","Paripiranga","Pau Brasil","Paulo Afonso","Pe de Serra","Pedrao","Pedro Alexandre","Piata","Pilao Arcado","Pindai","Pindobacu","Pintadas","Pirai do Norte","Piripa","Piritiba","Planaltino","Planalto","Pocoes","Pojuca","Ponto Novo","Porto Seguro","Potiragua","Prado","Presidente Dutra","Presidente Janio Quadros","Presidente Tancredo Neves","Queimadas","Quijingue","Quixabeira","Rafael Jambeiro","Remanso","Retirolandia","Riachao das Neves","Riachao do Jacuipe","Riacho de Santana","Ribeira do Amparo","Ribeira do Pombal","Ribeirao do Largo","Rio Real","Rio de Contas","Rio do Antonio","Rio do Pires","Rodelas","Ruy Barbosa","Salinas da Margarida","Salvador","Santa Barbara","Santa Brigida","Santa Cruz Cabralia","Santa Cruz da Vitoria","Santa Ines","Santa Luzia","Santa Maria da Vitoria","Santa Rita de Cassia","Santa Teresinha","Santaluz","Santana","Santanopolis","Santo Amaro","Santo Antonio de Jesus","Santo Estevao","Sao Desiderio","Sao Domingos","Sao Felipe","Sao Felix do Coribe","Sao Felix","Sao Francisco do Conde","Sao Gabriel","Sao Goncalo dos Campos","Sao Jose da Vitoria","Sao Jose do Jacuipe","Sao Miguel das Matas","Sao Sebastiao do Passe","Sapeacu","Satiro Dias","Saubara","Saude","Seabra","Sebastiao Laranjeiras","Senhor do Bonfim","Sento Se","Serra Dourada","Serra Preta","Serra do Ramalho","Serrinha","Serrolandia","Simoes Filho","Sitio do Mato","Sitio do Quinto","Sobradinho","Souto Soares","Tabocas do Brejo Velho","Tanhacu","Tanque Novo","Tanquinho","Taperoa","Tapiramuta","Teixeira de Freitas","Teodoro Sampaio","Teofilandia","Teolandia","Terra Nova","Tremedal","Tucano","Uaua","Ubaira","Ubaitaba","Ubata","Uibai","Umburanas","Una","Urandi","Urucuca","Utinga","Valenca","Valente","Varzea Nova","Varzea da Roca","Varzea do Poco","Varzedo","Vera Cruz","Vereda","Vitoria da Conquista","Wagner","Wanderley","Wenceslau Guimaraes","Xique-Xique"};
 		String[] estados = {"Acre","Alagoas","Amapá","Amazonas","Bahia","Ceará","Distrito Federal","Espírito Santo","Goiás","Maranhão","Mato Grosso","Mato Grosso do Sul","Minas Gerais","Pará","Paraíba","Paraná","Pernambuco","Piauí","Rio de Janeiro","Rio Grande do Norte","Rio Grande do Sul","Rondônia","Roraima","Santa Catarina","São Paulo","Sergipe","Tocantins"};
 
-		int qual_rua = rand.nextInt(ruas.length);
 		int qual_letra = rand.nextInt(letras.length);
 		int qual_bairro = rand.nextInt(bairros.length);
 		int qual_cidade = rand.nextInt(cidades.length);
 		int qual_estado = rand.nextInt(estados.length);
+		String rua = bairros[qual_bairro] + " " + cidades[qual_cidade];
 		String cep = "";
-		return ruas[qual_rua] + "," + numero + letras[qual_letra] + "," + bairros[qual_bairro] + "-" + cep + "-" + cidades[qual_cidade] + "," + estados[qual_estado];
+		for(int i=0;i<8;i++){
+			cep = cep + String.valueOf(rand.nextInt(9));
+		}
+		return rua + "," + numero + letras[qual_letra] + "," + bairros[qual_bairro] + "-" + cep + "-" + cidades[qual_cidade] + "," + estados[qual_estado];
 	}
 
 	private String gerarLocalTrabalho(){
@@ -109,49 +216,43 @@ public class ColecaoArtigo {
 
 	private String gerarTelefone(){
 		Random rand = new Random();
-		String ddd = "0"+ rand.ints(10,90);
-		String telefone = null;
+		String ddd = "(0"+ String.valueOf(aleatoriar(40,90)) + ")";
+		String telefone = "";
 		for(int i = 0; i<8;i++){
-			telefone.concat(String.valueOf(rand.nextInt(9)));
+			telefone = telefone + String.valueOf(rand.nextInt(9));
 		}
 
 		return ddd + telefone;
 	}
 
-		String[] enderecos = {"Rua da liberdade", "Rua cardeal", "Avenida 7", "Travessa São Leopoldino",
-				"Rua Venceslau", "Travessa do sofrimento", "Rua das desilusões", "Travessa Abacaxi",
-				"Avenida Conquista", "Bairro da Paz", "Rua Irma Isabel", "Loteamento tres coracoes",
-				"Rua Barros", "Avenida Campos", "Avenida Venceremos", "Travessa do Ovo Escondido",
-				"Rua das missoes", "Travessa Niveladora", "Rua do aprendizado", "Travessa de Oracoes",
-				"Rua Isabel", "Travessa Marcus Drumond", "Avenida da desilusao", "Rua da tristeza",
-				"Caminho das arvores", "Garcia", "Santa Luzia", "Rua do Telemaco","Rua da Odisseia"};
+	public static int aleatoriar(int minimo, int maximo) {
+		Random random = new Random();
+		return random.nextInt((maximo - minimo) + 1) + minimo;
+	}
 
-		String[] numeroCartao = {"1152.2555-15", "5132.2335-25", "3142.2885-72", "3192.2255-17",
-				"8522.2327-83", "4823.5316-18", "5227.2922-74", "1525.2858-96",
-				"7132.4165-27", "5934.2775-85", "4472.2635-24", "1195.2178-72",
-				"6522.5455-75", "5132.2353-25", "3142.2885-72", "3192.2255-71",
-				"5822.2372-22", "8423.5316-81", "2427.2922-47", "1525.2858-96",
-				"7132.4165-29", "5934.2775-32", "4472.2635-42", "1595.2178-27"};
-
-		String[] dataVencimento = {"06/22", "07/22", "09/22", "01/23",
-				"03/23", "06/23", "09/23", "12/23",
-				"03/24", "06/24", "09/24", "12/24",
-				"03/25", "06/25", "09/25", "12/25",
-				"03/26", "06/26", "09/26", "12/26",
-				"03/27", "06/27", "09/27", "12/27"};
-
-		String[] marcaCartao = {"Visa", "Mastercard", "Cielo", "Golden"};
+	public int criaMenuPrincipal(){
+		int opcao;
+		System.out.println("Menu de Opcoes:");
+		System.out.println("-------------------");
+		System.out.println("1. Adicionar Usuário");
+		System.out.println("2. Preencher banco");
+		System.out.println("-------------------");
+		return opcao = Console.readInt();
+	}
 
 	public static void main(String args[]){
 		try {
 			ColecaoArtigo cp = new ColecaoArtigo();
-			cp.AdicionarUsuario();
-//			cp.AdicionarArtigo();
-//			UsuarioController con = new UsuarioController();
-			//con.AdicionarUsuarioCartao();
-			//con.AdicionarArtigoAutor();
-//			con.fechar();
+			int opcao=8;
+			while (cp.criaMenuPrincipal()!=0){
+				if(opcao == ColecaoArtigo.ADICIONAR){
 
+				}else if(opcao == ColecaoArtigo.PREENCHER){
+					preencherBanco(cp);
+				}else{
+					System.out.println("Escolha uma opcao correta.");
+				}
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}	

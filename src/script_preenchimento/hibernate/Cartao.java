@@ -29,6 +29,13 @@ public class Cartao {
         this.usuario = usuario;
     }
 
+    public Cartao(String cartao_numero, String cartao_data_vencimento, String cartao_marca) {
+        super();
+        this.cartao_numero = cartao_numero;
+        this.cartao_data_vencimento = cartao_data_vencimento;
+        this.cartao_marca = cartao_marca;
+    }
+
     public int getCartao_id() {
         return cartao_id;
     }
@@ -61,4 +68,13 @@ public class Cartao {
         this.cartao_marca = cartao_marca;
     }
 
+    @Override
+    public String toString() {
+        return "Cartao{" +
+                "cartao_id=" + cartao_id +
+                ", cartao_numero='" + cartao_numero + '\'' +
+                ", cartao_data_vencimento='" + cartao_data_vencimento + '\'' +
+                ", cartao_marca='" + cartao_marca + '\'' +
+                '}';
+    }
 }

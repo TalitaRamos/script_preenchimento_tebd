@@ -36,6 +36,9 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", targetEntity = ArtigoAutor.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ArtigoAutor> artigoAutorList;
 
+    public Usuario() {
+    }
+
     public Usuario(String usuario_nome, String usuario_endereco, String usuario_telefone, String usuario_email, String usuario_local_trabalho, int usuario_is_revisor, int usuario_is_autor) {
         super();
         this.usuario_nome = usuario_nome;
@@ -133,5 +136,19 @@ public class Usuario {
 
     public void setRevisao(Revisao revisao) {
         this.revisao = revisao;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "usuario_id=" + usuario_id +
+                ", usuario_nome='" + usuario_nome + '\'' +
+                ", usuario_endereco='" + usuario_endereco + '\'' +
+                ", usuario_telefone='" + usuario_telefone + '\'' +
+                ", usuario_email='" + usuario_email + '\'' +
+                ", usuario_local_trabalho='" + usuario_local_trabalho + '\'' +
+                ", usuario_is_revisor=" + usuario_is_revisor +
+                ", usuario_is_autor=" + usuario_is_autor +
+                '}';
     }
 }

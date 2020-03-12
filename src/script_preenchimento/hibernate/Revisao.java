@@ -27,7 +27,7 @@ public class Revisao {
     @JoinColumn(name = "artigo_id")
     private Artigo artigo;
 
-    public Revisao(int revisao_id, Float revisao_nota, Date revisao_data_envio, String revisao_comentario) {
+    public Revisao(Float revisao_nota, Date revisao_data_envio, String revisao_comentario) {
         super();
         this.revisao_id = revisao_id;
         this.revisao_nota = revisao_nota;
