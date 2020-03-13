@@ -14,9 +14,13 @@ public class CartaoController {
     }
 
     public void salvarCartao(Cartao cartao){
-        em.getTransaction().begin();
-        em.persist(cartao);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(cartao);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            em.getTransaction().rollback();
+        }
     }
 
     public void fechar() {

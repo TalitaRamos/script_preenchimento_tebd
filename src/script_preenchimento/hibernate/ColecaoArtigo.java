@@ -4,10 +4,12 @@ import java.util.*;
 public class ColecaoArtigo {
 	public static final int ADICIONAR = 1;
 	public static final int PREENCHER = 2;
-	private static void preencherBanco(ColecaoArtigo cp){
+	Scanner sc = new Scanner(System.in);
+
+	private void preencherBanco(ColecaoArtigo cp){
 		try {
 			//ADICIONAR USUÁRIOS
-//		    for(int i=0;i<3000;i++){
+//		    for(int i=0;i<3;i++){
 //                cp.AdicionarUsuario();
 //                System.out.println("usuario: "+i);
 //            }
@@ -16,13 +18,13 @@ public class ColecaoArtigo {
 		    //ADICONAR CARTÕES
 		    for(int j=0;j<usuarioList.size();j++){
 				Cartao cartao = cp.AdicionarCartao(usuarioList.get(j));
-				con.AdicionarUsuarioCartao(usuarioList.get(j),cartao);
+				con.AdicionarUsuarioCartao(usuarioList.get(j),cartao,PREENCHER);
 			}
 		    con.fechar();
 		    //ADICONAR ARTIGOS
-		    for(int l=0;l<1000;l++){
-				cp.AdicionarArtigo(l);
-			}
+//		    for(int l=0;l<1000;l++){
+//				cp.AdicionarArtigo(l);
+//			}
 //			cp.AdicionarArtigo(4);
 //			cp.AdicionarRevisao();
 		} catch (Exception e) {
@@ -49,51 +51,57 @@ public class ColecaoArtigo {
 		con.fechar();
 	}
 
-	public void AdicionarUsuarioCmd()throws Exception{
-		Usuario p;
+	public void adicionarUsuarioCmd()throws Exception{
 		String opcao;
 		UsuarioController con = new UsuarioController();
 		do {
 			System.out.println("Adicionar Usuário:");
 			System.out.println("-------------------");
 			System.out.print("Nome:");
-			String usuario_nome = Console.readLine();
+			String usuario_nome = sc.nextLine();
 			System.out.print("Endereço:");
-			String usuario_endereco = Console.readLine();
+			String usuario_endereco = sc.nextLine();
 			System.out.print("Telefone:");
-			String usuario_telefone = Console.readLine();
+			String usuario_telefone = sc.nextLine();
 			System.out.print("Email:");
-			String usuario_email = Console.readLine();
+			String usuario_email = sc.nextLine();
 			System.out.print("Local de Trabalho:");
-			String usuario_local_trabalho = Console.readLine();
-			System.out.print("É revisor:");
-			int usuario_is_revisor = Console.readLine();
+			String usuario_local_trabalho = sc.nextLine();
+			System.out.print("É revisor? \n");
+			System.out.print("Digite 0 para SIM e 1 para NÃO :");
+			int usuario_is_revisor = Integer.parseInt(sc.nextLine());
+			while (usuario_is_revisor!=0 && usuario_is_revisor!=1){
+				System.out.print("Digite 0 para SIM e 1 para NÃO :\n");
+				usuario_is_revisor = Integer.parseInt(sc.nextLine());
+			}
 			Usuario a = new Usuario(usuario_nome,usuario_endereco,usuario_telefone,usuario_email,usuario_local_trabalho,usuario_is_revisor,0);
 
 			con.salvarUsuario(a);
+			con.fechar();
 			this.addCartao(a);
 
 			System.out.print("Deseja Adicionar mais um Usuário? [S|N]: ");
-			opcao = Console.readLine();
+			opcao = sc.nextLine();
 		} while(opcao.compareTo("S") == 0);
 		con.fechar();
 	}
 
-	public void addCartao(Usuario a) throws Exception {
-		CartaoController cartaoController = new CartaoController();
+	public  void addCartao(Usuario a) throws Exception {
+		UsuarioController con = new UsuarioController();
 		System.out.println("Adicionar Cartao:");
 		System.out.println("-------------------");
 		System.out.print("Número do Cartão:");
-		String numero_cartao = Console.readLine();
+		String numero_cartao = sc.nextLine();
 		System.out.print("Validade:");
-		String validade_cartao = Console.readLine();
-		System.out.print("Marcao:");
-		String marcaCartao = Console.readLine();
+		String validade_cartao = sc.nextLine();
+		System.out.print("Marca:");
+		String marcaCartao = sc.nextLine();
 
 		Cartao cartao = new Cartao(numero_cartao, validade_cartao,marcaCartao,a);
-		cartaoController.salvarCartao(cartao);
+
+		con.AdicionarUsuarioCartao(a,cartao,ADICIONAR);
 		System.out.println(cartao.toString());
-		cartaoController.fechar();
+		con.fechar();
 	}
 
 	public void AdicionarArtigo(int number) throws Exception {
@@ -237,18 +245,19 @@ public class ColecaoArtigo {
 		System.out.println("1. Adicionar Usuário");
 		System.out.println("2. Preencher banco");
 		System.out.println("-------------------");
-		return opcao = Console.readInt();
+		opcao = Integer.parseInt(sc.nextLine());
+		return opcao;
 	}
 
 	public static void main(String args[]){
 		try {
 			ColecaoArtigo cp = new ColecaoArtigo();
 			int opcao=8;
-			while (cp.criaMenuPrincipal()!=0){
+			while ((opcao = cp.criaMenuPrincipal())!=0){
 				if(opcao == ColecaoArtigo.ADICIONAR){
-
+					cp.adicionarUsuarioCmd();
 				}else if(opcao == ColecaoArtigo.PREENCHER){
-					preencherBanco(cp);
+					cp.preencherBanco(cp);
 				}else{
 					System.out.println("Escolha uma opcao correta.");
 				}

@@ -25,7 +25,7 @@ public class Usuario {
     @Column(name = "usuario_is_autor")
     int usuario_is_autor;
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL,
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.MERGE,
             fetch = FetchType.LAZY, optional = true)
     private Cartao cartao;
 

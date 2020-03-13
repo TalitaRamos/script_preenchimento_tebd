@@ -21,6 +21,8 @@ public class Cartao {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    public Cartao() { }
+
     public Cartao(String cartao_numero, String cartao_data_vencimento, String cartao_marca, Usuario usuario) {
         super();
         this.cartao_numero = cartao_numero;
@@ -29,12 +31,12 @@ public class Cartao {
         this.usuario = usuario;
     }
 
-    public Cartao(String cartao_numero, String cartao_data_vencimento, String cartao_marca) {
-        super();
-        this.cartao_numero = cartao_numero;
-        this.cartao_data_vencimento = cartao_data_vencimento;
-        this.cartao_marca = cartao_marca;
-    }
+//    public Cartao(String cartao_numero, String cartao_data_vencimento, String cartao_marca) {
+//        super();
+//        this.cartao_numero = cartao_numero;
+//        this.cartao_data_vencimento = cartao_data_vencimento;
+//        this.cartao_marca = cartao_marca;
+//    }
 
     public int getCartao_id() {
         return cartao_id;
@@ -67,6 +69,7 @@ public class Cartao {
     public void setCartao_marca(String cartao_marca) {
         this.cartao_marca = cartao_marca;
     }
+
 
     @Override
     public String toString() {

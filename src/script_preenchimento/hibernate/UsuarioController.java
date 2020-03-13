@@ -35,11 +35,22 @@ public class UsuarioController {
         return allQuery.getResultList();
     }
 
-    public void AdicionarUsuarioCartao(Usuario usuario, Cartao cartao)throws Exception{
+    public void AdicionarUsuarioCartao(Usuario usuario, Cartao cartao, int tipo)throws Exception{
         usuario.setCartao(cartao);
-        em.getTransaction().begin();
-        em.persist(usuario);
-        em.getTransaction().commit();
+        try {
+            if(tipo == ColecaoArtigo.ADICIONAR){
+                em.getTransaction().begin();
+                em.merge(usuario);
+                em.getTransaction().commit();
+            }else if(tipo == ColecaoArtigo.PREENCHER){
+                em.getTransaction().begin();
+                em.persist(usuario);
+                em.getTransaction().commit();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            em.getTransaction().rollback();
+        }
     }
 
     public void AdicionarArtigoAutor()throws Exception{
