@@ -1,5 +1,9 @@
 package script_preenchimento.hibernate;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,12 +12,15 @@ import java.util.Date;
 public class Revisao {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "revisao_id ")
+    @Column(name = "revisao_id")
     int revisao_id ;
+
     @Column(name = "revisao_nota")
     Float revisao_nota;
+
     @Column(name = "revisao_data_envio")
     Date revisao_data_envio;
+
     @Column(name = "revisao_comentario")
     String revisao_comentario;
 
@@ -22,14 +29,17 @@ public class Revisao {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artigo_id")
+    @ManyToOne
+    @JoinColumn(name="artigo_id",insertable=true, updatable=true)
+    @Fetch(FetchMode.JOIN)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Artigo artigo;
+
+    public Revisao() {
+    }
 
     public Revisao(Float revisao_nota, Date revisao_data_envio, String revisao_comentario) {
         super();
-        this.revisao_id = revisao_id;
         this.revisao_nota = revisao_nota;
         this.revisao_data_envio = revisao_data_envio;
         this.revisao_comentario = revisao_comentario;
@@ -65,5 +75,21 @@ public class Revisao {
 
     public void setRevisao_comentario(String revisao_comentario) {
         this.revisao_comentario = revisao_comentario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Artigo getArtigo() {
+        return artigo;
+    }
+
+    public void setArtigo(Artigo artigo) {
+        this.artigo = artigo;
     }
 }

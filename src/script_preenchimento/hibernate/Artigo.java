@@ -2,6 +2,7 @@ package script_preenchimento.hibernate;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,6 @@ public class Artigo {
     String artigo_resumo;
     @Column(name = "artigo_arquivo")
     String artigo_arquivo;
-    @Column(name = "artigo_confirma_submissao")
-    int artigo_confirma_submissao;
     @Column(name = "artigo_qtd_revisores")
     int artigo_qtd_revisores;
     @Column(name = "artigo_media")
@@ -27,16 +26,16 @@ public class Artigo {
     @OneToMany(mappedBy = "artigo", targetEntity = ArtigoAutor.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ArtigoAutor> artigoAutorList;
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = true)
-    private Revisao revisao;
+    @OneToMany(mappedBy = "artigo", targetEntity = Revisao.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private List<Revisao> revisaoList;
 
-    public Artigo(String artigo_titulo, String artigo_resumo, String artigo_arquivo, int artigo_confirma_submissao, int artigo_qtd_revisores, float artigo_media) {
+    public Artigo() { }
+
+    public Artigo(String artigo_titulo, String artigo_resumo, String artigo_arquivo, int artigo_qtd_revisores, float artigo_media) {
         super();
         this.artigo_titulo = artigo_titulo;
         this.artigo_resumo = artigo_resumo;
         this.artigo_arquivo = artigo_arquivo;
-        this.artigo_confirma_submissao = artigo_confirma_submissao;
         this.artigo_qtd_revisores = artigo_qtd_revisores;
         this.artigo_media = artigo_media;
     }
@@ -65,14 +64,6 @@ public class Artigo {
         this.artigo_arquivo = artigo_arquivo;
     }
 
-    public int getArtigo_confirma_submissao() {
-        return artigo_confirma_submissao;
-    }
-
-    public void setArtigo_confirma_submissao(int artigo_confirma_submissao) {
-        this.artigo_confirma_submissao = artigo_confirma_submissao;
-    }
-
     public int getArtigo_qtd_revisores() {
         return artigo_qtd_revisores;
     }
@@ -97,12 +88,20 @@ public class Artigo {
         this.artigoAutorList = artigoAutorList;
     }
 
-    public Revisao getRevisao() {
-        return revisao;
+    public List<Revisao> getRevisaoList() {
+        return revisaoList;
     }
 
-    public void setRevisao(Revisao revisao) {
-        this.revisao = revisao;
+    public String getArtigo_titulo() {
+        return artigo_titulo;
+    }
+
+    public void setArtigo_titulo(String artigo_titulo) {
+        this.artigo_titulo = artigo_titulo;
+    }
+
+    public void setRevisaoList(List<Revisao> revisaoList) {
+        this.revisaoList = revisaoList;
     }
 
     @Override
@@ -112,7 +111,6 @@ public class Artigo {
                 ", artigo_titulo='" + artigo_titulo + '\'' +
                 ", artigo_resumo='" + artigo_resumo + '\'' +
                 ", artigo_arquivo='" + artigo_arquivo + '\'' +
-                ", artigo_confirma_submissao=" + artigo_confirma_submissao +
                 ", artigo_qtd_revisores=" + artigo_qtd_revisores +
                 ", artigo_media=" + artigo_media +
                 '}';

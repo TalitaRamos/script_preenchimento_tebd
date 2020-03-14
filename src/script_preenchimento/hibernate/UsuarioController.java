@@ -15,6 +15,16 @@ public class UsuarioController {
         em = emf.createEntityManager();
     }
 
+    public void salvarUpdateUsuario(Usuario usuario){
+        try {
+            em.getTransaction().begin();
+            em.merge(usuario);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            em.getTransaction().rollback();
+        }
+    }
+
     public void salvarUsuario(Usuario usuario){
         try {
             em.getTransaction().begin();
@@ -26,7 +36,6 @@ public class UsuarioController {
     }
 
     public List<Usuario> findAll() {
-//        EntityManager em = emf.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Usuario> cq = cb.createQuery(Usuario.class);
         Root<Usuario> rootEntry = cq.from(Usuario.class);
@@ -35,18 +44,17 @@ public class UsuarioController {
         return allQuery.getResultList();
     }
 
+    public List<Usuario> findUsuarioRevisor() {
+        return em.createQuery("FROM Usuario WHERE usuario_is_revisor = 1", Usuario.class)
+                .getResultList();
+    }
+
     public void AdicionarUsuarioCartao(Usuario usuario, Cartao cartao, int tipo)throws Exception{
         usuario.setCartao(cartao);
         try {
-            if(tipo == ColecaoArtigo.ADICIONAR){
-                em.getTransaction().begin();
-                em.merge(usuario);
-                em.getTransaction().commit();
-            }else if(tipo == ColecaoArtigo.PREENCHER){
-                em.getTransaction().begin();
-                em.persist(usuario);
-                em.getTransaction().commit();
-            }
+            em.getTransaction().begin();
+            em.merge(usuario);
+            em.getTransaction().commit();
         }catch (Exception e){
             e.printStackTrace();
             em.getTransaction().rollback();

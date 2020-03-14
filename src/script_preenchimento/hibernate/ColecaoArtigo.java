@@ -9,10 +9,9 @@ public class ColecaoArtigo {
 	private void preencherBanco(ColecaoArtigo cp){
 		try {
 			//ADICIONAR USUÁRIOS
-//		    for(int i=0;i<3;i++){
-//                cp.AdicionarUsuario();
-//                System.out.println("usuario: "+i);
-//            }
+		    for(int i=0;i<2;i++){
+                cp.AdicionarUsuario();
+            }
 			UsuarioController con = new UsuarioController();
 		    List<Usuario>usuarioList = con.findAll();
 		    //ADICONAR CARTÕES
@@ -22,11 +21,11 @@ public class ColecaoArtigo {
 			}
 		    con.fechar();
 		    //ADICONAR ARTIGOS
-//		    for(int l=0;l<1000;l++){
-//				cp.AdicionarArtigo(l);
-//			}
-//			cp.AdicionarArtigo(4);
-//			cp.AdicionarRevisao();
+		    for(int l=0;l<2;l++){
+				cp.AdicionarArtigo();
+			}
+			cp.AdicionarRevisao();
+			cp.calcularMedia();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -42,12 +41,10 @@ public class ColecaoArtigo {
 		String usuario_email = nome + "@gmail.com";
 		String usuario_local_trabalho = gerarLocalTrabalho();
 		int usuario_is_revisor = rand.nextInt(2);
-		int usuario_is_autor = rand.nextInt(2);
 
 		UsuarioController con = new UsuarioController();
-		Usuario a = new Usuario(usuario_nome,usuario_endereco,usuario_telefone,usuario_email,usuario_local_trabalho,usuario_is_revisor,usuario_is_autor);
-		//System.out.println(a.toString());
-		con.salvarUsuario(a);
+		Usuario a = new Usuario(usuario_nome,usuario_endereco,usuario_telefone,usuario_email,usuario_local_trabalho,usuario_is_revisor,0);
+		con.salvarUpdateUsuario(a);
 		con.fechar();
 	}
 
@@ -100,25 +97,53 @@ public class ColecaoArtigo {
 		Cartao cartao = new Cartao(numero_cartao, validade_cartao,marcaCartao,a);
 
 		con.AdicionarUsuarioCartao(a,cartao,ADICIONAR);
-		System.out.println(cartao.toString());
 		con.fechar();
 	}
 
-	public void AdicionarArtigo(int number) throws Exception {
+	public void AdicionarArtigo() throws Exception {
 		Random rand = new Random();
 		ArtigoController artCon = new ArtigoController();
+		UsuarioController con = new UsuarioController();
 
-		String artigo_titulo = "Avaliação vestibular computadorizada de pacientes com cinetose" + number;
+		String[] artigo_titulo = {"A PERDA DO AMOR É IGUAL À PERDA DA MORTE: UM ESTUDO SOBRE O AMOR EM CAIO FERNANDO ABREU","A ABORDAGEM QUÍMICA NO ENEM","A ANDRAGOGIA E O LETRAMENTO: IMPLICAÇÕES PARA A EDUCAÇÃO DE JOVENS E ADULTOS","A CONCEPÇÃO DE ÁTOMO NA QUÍMICA NA FÍSICA E NA BIOLOGIA: UMA VISÃO MULTIDISCIPLINAR","A IDENTIDADE DE LAGARTO CONTADA POR UM MEMORIALISTA","A IMPORTÂNCIA DA ESTRATÉGIA DE MARKETING","NO COMÉRCIO VESTUÁRIO DA CIDADE DE GUARABIRA-PB","A IMPORTÂNCIA DO ENSINO DE QUÍMICA NA EDUCAÇÃO DE JOVENS E ADULTOS: QUÍMICA PRA QUE TE QUERO?","A IMPORTÂNCIA DO PROGRAMA PIBID DO IFRN-APODI NO DESENVOLVIMENTO E USO DE","NOVAS METODOLOGIAS NO ENSINO DE QUÍMICA","A PREPARAÇÃO DE ALUNOS DA ESCOLA PÚBLICA PARA O PROCESSO SELETIVO DO IFRN: PROJETO DE EXTENSÃO IF + PÚBLICO","A RELAÇÃO DA QUÍMICA COM A CULTURA INDÍGENA","A TRAJETÓRIA MILITANTE DE ANTONIO BERNARDO CANELLAS NA CIDADE DE VIÇOSA EM ALAGOAS NA SEGUNDA DÉCADA DO SÉCULO XX (1916-1917)","A UTILIZAÇÃO DA GARRAFA PET COMO","FERRAMENTA DIDÁTICA NA COMPREENSÃO DE FENÔMENOS QUÍMICOS E FÍSICOS DA NATUREZA","A UTILIZAÇÃO DO JOGO DE TABULEIRO COMO PROPOSTA DE RECURSO DIDÁTICO-PEDAGÓGICO NO ENSINO DE GEOGRAFIA PARA ALUNOS COM DEFICIÊNCIA INTELECTUAL NA PERSPECTIVA DA","EDUCAÇÃO INCLUSIVA","ACIDENTE DE TRAJETO: ANALISE MULTIVARIADA DO FENÔMENO NO NORDESTE BRASILEIRO","ADIÇÃO DE FITASE A DIFERENTES CONCENTRAÇÕES DE CÁLCIO E FÓSFORO NO CRESCIMENTO DE FRANGOS","ALGUMAS IMPLICAÇÕES DA IDENTIFICAÇÃO DE TIPAGENS SANGUÍNEAS COM O USO DE SOROS AGLUTINÍNICOS ANTI-A ANTI-B E ANTI-RH (ANTI-D)","ALIMENTOS PARA LACTENTES E CRIANÇAS DE PRIMEIRA INFÂNCIA: UMA AVALIAÇÃO DA ROTULAGEM","ANÁLISE DA ACESSIBILIDADE PARA DEFICIENTES NO SÍTIO DO IFRN","ANÁLISE DE EMISSÃO DE FUMAÇA PRETA EM MACAPÁ/AP","ANÁLISE DE SISTEMA DE ATERRAMENTO DE LDS","69KV COM ESTRUTURAS DE CONCRETO SOB DESCARGAS ATMOSFÉRICAS","ANÁLISE DO CURSO TÉCNICO EM CONTABILIDADE DO IFPI EM CONSONÂNCIA COM O CATÁLOGO NACIONAL DE CURSOS TÉCNICOS","ANÁLISE DO GRAU DE SATISFAÇÃO DOS CLIENTES","DA LANCHONETE E PIZZARIA ROMA DE SANTO ANTÔNIO/RN","ANÁLISE DO ÍNDICE DE SUSTENTABILIDADE DO MUNICÍPIO DE QUIXERAMOBIM-CE","ANÁLISE DO LIVRO DIDÁTICO DE BIOLOGIA DO ENSINO MÉDIO SOBRE BACTÉRIAS","ANÁLISE ECONÔMICA DA PROPRIEDADE LEITEIRA MODAL DO ESTADO DO ACRE","ANÁLISE POR HPLC DE EXTRATOS PRODUZIDOS POR FUNGOS ENDOFÍTICOS ISOLADOS DE CURCUMA LONGA","APORTE DA PRÁTICA EXPERIMENTAL PARA O","PROCESSO DE ENSINO APRENDIZADO NA DISCIPLINA DE FÍSICA","ARMAZENADOR DE DRÁGEAS COM REGISTRO DE USO","ARTIGO_REAPROVEITAMENTO E MODELAGEM DE PAPEL NA CONSTRUÇÃO DE FORMAS GEOMETRICAS","AS IMAGENS NO LIVRO DE SOCIOLOGIA: UMA ANÁLISE SEMIÓTICA DAS RELAÇÕES ENTRE IMAGEM E TEXTO EM LIVRO DIDÁTICO","AS LIÇÕES DA CARTA SOBRE A FELICIDADE DE EPICURO PARA SUPERAR AS SEDUÇÕES DO CONSUMISMO CONTEMPORÂNEO","AS NOVAS TECNOLOGIAS DA INFORMAÇÃO E DA COMUNICAÇÃO NAS PRÁTICAS PEDAGÓGICAS DA EDUCAÇÃO A DISTÂNCIA","AVALIAÇÃO DA ATIVIDADE LIPÁSICA DE SEMENTES NA REAÇÃO DE HIDRÓLISE DO AZEITE DE OLIVA","AVALIAÇÃO DA EFICIÊNCIA DA GALVANIZAÇÃO COMO PROTEÇÃO ANTICORROSIVA DE COMPONENTES","AVALIAÇÃO DA FAUNA FÚNGICA DO TAMBAQUI (COLOSSOMA MACROPOMUM) COMERCIALIZADO NO MERCADO MUNICIPAL DE ARIQUEMES – RO","AVALIAÇÃO DE ALTURA DIÂMETRO E MATÉRIA SECA DE MUDAS DE IPÊ-AMARELO SOB OMISSÃO DE NUTRIENTES","CARACTERIZAÇÃO DE ARGILA PLÁSTICA PARA CONFECÇÃO DE PEÇAS DE CERÂMICA VERMELHA: ESTRUTURA E PROPRIEDADES DE PRODUTOS CERÂMICOS","CARACTERIZAÇÃO E BIODEGRADABILIDADE AERÓBIA DOS ESGOTOS DA ETE LIBERDADE","CARACTERIZAÇÃO FÍSICO-QUÍMICA E ANÁLISE SENSORIAL DO BISCOITO TIPO COOKIE COM A ADIÇÃO PARCIAL DA FARINHA DA CASCA DA MELANCIA","CITI – COMPILADOR INTERATIVO COM TRADUTOR INTEGRADO: UM AMBIENTE PARA AUXÍLIO AO ENSINO-APRENDIZAGEM DE PROGRAMAÇÃO PARA","ALUNOS INICIANTES","CLASSIFICAÇÃO DA QUALIDADE DE ÁGUA PARA IRRIGAÇÃO DO PERÍMETRO IRRIGADO TABULEIROS DE RUSSAS - CEARÁ","COMPARAÇÃO DA EFICIÊNCIA DAS HIDRÓLISES ÁCIDAS EM BATATAS DOCE E INGLESA","CONFECÇÃO DE PROTÓTIPOS DE BAIXO CUSTO: GERADOR ELÉTRICO","CONFLITOS SOCIOAMBIENTAIS E INTERRUPÇÃO DO SISTEMA DE ABASTECIMENTO DE ÁGUA: UM ESTUDO DE CASO NO MUNICÍPIO DE PRINCESA ISABEL/PB","CONSTRUÇÃO DE UMA ESTUFA MICROCONTROLADA","DECODIFICAÇÃO DE CÓDIGOS CONVOLUCIONAIS EM PLATAFORMA FPGA BASEADA NAS TRELIÇAS CONVENCIONAL E MÍNIMA","DESAFIOS PARA O FUTURO DA JUVENTUDE: LEVANTAMENTO SOBRE A INSERÇÃO DOS JOVENS EGRESSOS DO CURSO DE LICENCIATURA EM EDUCAÇÃO FÍSICA DO IFRR NO MUNDO DO","TRABALHO.","DESENVOLVENDO APLICAÇÕES LÚDICAS PARA O ENSINO DE QUÍMICA: UMA NOVA ESTRATÉGICA DE","ENSINO","DESENVOLVIMENTO DE KITS DIDÁTICOS DE BAIXO CUSTO MODULARES PARA O APRENDIZADO DE ELETRÔNICA DIGITAL","DESENVOLVIMENTO DE PROJETOS INTERDISCIPLINARES COM A TEMÁTICA AMBIENTAL NAS ESCOLAS MUNICIPAIS DE ENSINO FUNDAMENTAL II DO MUNICÍPIO DE","GARANHUNS/PE","DESENVOLVIMENTO DE UM VEÍCULO AÉREO NÃO TRIPULADO COM SISTEMA DE NAVEGAÇÃO MICROCONTROLADO","DESENVOLVIMENTO E ANÁLISE DE CONCENTRADORES TIPO V-TROUGH","DESTINAÇÃO DE RESÍDUOS SÓLIDOS DE UMA COMUNIDADE NA ZONA RURAL DE XAPURI - AC","DIAGNÓSTICO SOBRE A UTILIZAÇÃO DOS LABORATÓRIOS DE MATEMÁTICA E FÍSICA NAS ESCOLAS DE ENSINO MÉDIO DA REDE ESTADUAL DE ENSINO DO ESTADO DO MARANHÃO NA UNIDADE REGIONAL DE EDUCAÇÃO DE SÃO JOÃO","DOS PATOS","DIFICULDADES DOS ALUNOS NA DISCIPLINA DE QUÍMICA NAS ESCOLAS DO ENSINO MÉDIO DO MUNICÍPIO DE PEDRA BRANCA-CE.","DIFUSÃO DE ATIVIDADES EXTENSIONISTAS: RELATO DO USO DO AUDIOVISUAL NO CRPNM/IFPB","/CABEDELO","DISCUSSÕES ACERCA DO NOVO CÓDIGO FLORESTAL BRASILEIRO","DISPONIBILIZAÇÃO DE DADOS GEOESPACIAIS ATRAVÉS DO SOFTWARE WEB I3GEO GEOPROCESSADOS A PARTIR DE TÉCNICAS DE SENSORIAMENTO REMOTO UTILIZADAS PARA AVALIAR O AVANÇO DA PRODUÇÃO DE GRÃOS E CONSEQUENTES IMPACTOS SOCIOAMBIENTAIS","CAUSADOS AO CERRADO PIAUIENSE.","DMITRY: UMA PROPOSTA DE ARQUITETURA DE SOFTWARE PARA GESTÃO DE PROJETOS","EDUCACIONAIS","EDUCAÇÃO AMBIENTAL E CIDADANIA: FERRAMENTAS PARA REDUZIR AS DIFERENÇAS SOCIOAMBIENTAIS EM DOIS BAIRROS DO","MUNICÍPIO DE AÇAILÂNDIA-MA","EDUCAÇÃO SEXUAL: ESTRATÉGIAS PEDAGÓGICAS PARA GRADUANDOS EM CIÊNCIAS BIOLÓGICAS","EFEITO DA TEMPERATURA E DA LUZ SOBRE A GERMINAÇÃO DE MOGNO (SWIETENIA MACROPHYLLA)","EFICIÊNCIA NA SALA DE AULA: O PROCESSO DE REPRESENTAÇÃO DE TURMA NOS CURSOS TÉCNICOS INTEGRADOS","ELÉTRONS CORRELACIONADOS EM CLUSTERS QUADRADOS","ESTUDO COMPARATIVO DA RESISTÊNCIA À COMPRESSÃO DO CONCRETO E DO SLUMP TEST COLETADO EM TRÊS ETAPAS DISTINTAS DO CAMINHÃO BETONEIRA","ESTUDO DA VIABILIDADE DO APROVEITAMENTO DE ÁGUAS PLUVIAS NO IFRN CAMPUS NATAL- CENTRAL","ESTUDO DO COMPORTAMENTO DE IGUANA IGUANA EM ÁREA URBANA E ÁREA DE MATA CILIAR NA CIDADE DE FLORIANO-PI.","ESTUDO DOS SINAIS DE PONTUAÇÃO EM MATERIAL DIDÁTICO DE LÍNGUA PORTUGUESA DO ENSINO FUNDAMENTAL UMA ANÁLISE CRÍTICA","ESVERDEANDO A PRODUÇÃO DE PAVIMENTOS INTERTRAVADOS POR MEIO DO PROCESSO DE LOGÍSTICA REVERSA","EXPERIMENTANDO A QUÍMICA DESDE AS SÉRIES INICIAIS DO ENSINO FUNDAMENTAL","EXPLORANDO A FÍSICA EM EXPERIMENTOS DE CIÊNCIA NUM PROJETO DE EDUCAÇÃO NÃO FORMAL DO SUL DA BAHIA","FÍSICA NO 9° ANO DO ENSINO FUNDAMENTAL: UM ESTUDO DA METODOLOGIA UTILIZADA NA ESCOLA CENTRO DE ENSINO DOUTOR PAULO RAMOS","IDENTIFICAÇÃO MINERALÓGICA DE DIFRATOGRAMA DE UMA AMOSTRA DE CAULIM","IMPLANTAÇÃO DE BICICLETÁRIOS NOS CAMPI DO IFBA: VIABILIDADE TÉCNICA E FINANCEIRA","IMPLANTAÇÃO DE UMA COLEÇÃO DIDÁTICA DE INVERTEBRADOS MARINHOS NO IFPE/CAMPUS CARUARU.","IMPLANTAÇÃO DO PROGRAMA 5S EM UMA COORDENAÇÃO DE UMA INSTITUIÇÃO DE ENSINO","IMPORTÂNCIA DO CBQ PARA O BRASIL","INDICADORES DA QUALIDADE VISUAL DO SOLO EM DIFERENTES SISTEMAS DE USO NO SEMIÁRIDO PARAIBANO","INFERÊNCIA INDUTIVA: MÉTODOS DE MILL E SUA APLICAÇÃO NAS CIÊNCIAS SEGUNDO IRVING COPI","INFLUÊNCIA DA FARINHA DO CAROÇO DE AÇAÍ NOS PARÂMETROS MORFOMÉTRICOS DOS INTESTINOS DE TAMBAQUI (COLOSSOMA","MACROPOMUM)","INOVAÇÃO NA APRENDIZAGEM DE MATEMÁTICA MEDIANTE O USO DE JOGOS COOPERATIVOS","INTERFACES ENTRE A SÉRIE PERCY JACKSON E OS OLIMPIANOS DE RICKY RIORDAN E A MITOLOGIA GREGA: APROXIMAÇÕES/DISTANCIAMENTOS NARRATIVOS E RELEVÂNCIA À POPULARIZAÇÃO DA CULTURA ANTIGA","LABORATÓRIO DE GEOMETRIA ESPACIAL COM MATERIAL RECICLÁVEL.","LAGOA DOS INDIOS: UMA EXPECTATIVA QUILOMBOLA?","MANEJO E QUALIDADE DO ÓLEO DE ANDIROBA EXTRAIDO POR PRENSA","MÁQUINA TERMODINÂMICA: UMA CONSTRUÇÃO ARTESANAL","MARCAS DE AUTORIA EM TEXTOS DE ALUNOS DO 7º E 8º ANOS DO ENSINO FUNDAMENTAL A PONTUAÇÃO NO GÊNERO MEMÓRIAS LITERÁRIAS","MATEMÁTICA APLICADA NA LUZ E FOTOGRAFIA","NOVO CÓDIGO FLORESTAL BRASILEIRO: AVANÇOS E RETROCESSOS DE UM DICOTÔMICO DEBATE","O ENEM DE 1998 A 2008: AUSÊNCIA E ÊNFASE DOS GÊNEROS ARTÍSTICOS NAS QUESTÕES DE ARTE","O ENEM DE 2009 A 2014: ÊNFASE DOS GÊNEROS ARTÍSTICOS E DAS QUESTÕES COM ARTE","O GEOGEBRA COMO INSTRUMENTO DE ENSINO DA MATEMÁTICA","O NOVO PAPEL DO JORNALISTA EM TEMPOS DE REDES SOCIAIS","O PASSADO VALE OURO! UMA EXPERIÊNCIA EM","ORIENTAÇÃO NA OLIMPÍADA NACIONAL EM HISTÓRIA DO BRASIL","O TÓPICO DISCURSIVO NA INTERAÇÃO QUASE MEDIADA: UMA ANÁLISE CONVERSACIONAL DO PROGRAMA RODA VIVA","O(S) SENTIDO(S) DA GUERRA ENTRE A ANTIGUIDADE E A MODERNIDADE OCIDENTAL: UMA ANÁLISE COMPARATIVA DAS MOTIVAÇÕES GUERREIRAS NOS CAMPOS DE BATALHA DE TRÓIA","E DA SEGUNDA GUERRA MUNDIAL","OBSERVAÇÃO DAS CONDIÇÕES HIGIÊNICA DOS PRODUTOS COMERCIALIZADOS NA FEIRA DO PRODUTOR DO MUNICÍPIO DE BOA VISTA-RR","OFICINAS DE MECÂNICA PARA AS ESCOLAS PÚBLICAS DE SÃO GONÇALO DO AMARANTE/RN","ORGANIZAÇÃO DO ESPAÇO ESCOLAR EM SALAS- AMBIENTE: ESTUDO EXPLORATÓRIO COM ALUNOS DO","OS DETERMINANTES DA DENGUE NO CONTEXTO AMAZÔNICO: UMA VISÃO GEOGRÁFICA DO AMBIENTE DA DOENÇA NO ACRE","OS ENTRAVES NO ENSINO DE GENÉTICA COM ALUNOS DO ENSINO MÉDIO DE UMA ESCOLA PÚBLICA DA CIDADE DE MANAUS","PARA INICIO DE CONVERSA: REDUÇÃO DA MAIORIDADE PENAL POLITICAS PÚBLICAS E EDUCAÇÃO.","PERCEPÇÃO AMBIENTAL DE FREQUENTADORES DO BOSQUE MUNICIPAL EM URUPÁ /RO BRASIL","PERCEPÇÃO AMBIENTAL DOS ALUNOS DO ENSINO MÉDIO DO IFMA - CAMPUS CODÓ SOBRE A DESMISTIFICAÇÃO DE ANIMAIS PEÇONHENTOS E","VENENOSOS","POTENCIAL ALELOPÁTICO DO EXTRATO AQUOSO DE JATROPHA GOSSYPIIFOLIA L. NA GERMINAÇÃO DE LACTUCA SATIVA L.","PROFESSOR DE MATEMÁTICA: UMA ESTRATÉGIA DE ENSINO NA TRANSFORMAÇÃO DO SEU FAZER ENSINAR","PROPOSTA DE USO DA PIEZOELETRICIDADE PARA A IMPLEMENTAÇÃO DE SISTEMAS ENERGÉTICOS ALTERNATIVOS","PROPRIEDADE INTELECTUAL E TRANSFERÊNCIA DE TECNOLOGIA NO CENÁRIO DA LEI DE INOVAÇÃO (LEI N° 10.973/04) E DA EMENDA CONSTITUCIONAL 85/2015","PROSPECÇÃO TECNOLÓGICA DO USO DO CAJUEIRO (ANACARDIUM OCCIDENTALE L.) COMO FITOTERÁPICO","PROTÓTIPO DIDÁTICO PARA ELETRÔNICA DIGITAL","QUÍMICA VERSUS SEGURANÇA NO TRABALHO: IDENTIFICANDO OS RISCOS NO LABORATÓRIO DE QUÍMICA","RECUPERAÇÃO DA NASCENTE DO CÓRREGO DAS TÁBUAS EM VAZANTE - MG","REFLEXÕES SOBRE AS CONTRIBUIÇÕES DA COMPUTAÇÃO MÓVEL À APRENDIZAGEM AUTÔNOMA DE LÍNGUA INGLESA","REGISTRO DA MEMÓRIA MUSICAL MONTEIRENSE: ZABÉ DA LOCA","RESÍDUOS SÓLIDOS: SABERES E PRÁTICAS DOS DISCIENTES DO CURSO TÉCNICO EM ELETROELETRÔNICA SUBSEQUENTE DO IFPE","CAMPUS GARANHUNS","SERRAPILHEIRA ACUMULADA EM DIFERENTES ESTÁGIOS SUCESSIONAIS DA CAATINGA NO SEMIÁRIDO DA PARAÍBA","SIMULAÇÕES NUMÉRICAS PARA ILUMINAÇÃO E VENTILAÇÃO NATURAIS COM SOFTWARE BIM","SÍNTESE DE BIODIESEL A PARTIR DE ÓLEOS RESIDUAIS","SÍNTESE DE CANDIDATOS A FOTOPROTETORES ORGÂNICOS UTILIZANDO REAÇÕES DO TIPO CONDENSAÇÃO ALDÓLICA","TABULEIRO ORGÂNICO – MINA DE","HIDROCARBONETOS: UMA PROPOSTA LÚDICA PARA O ENSINO INTRODUTÓRIO A CADEIAS CARBÔNICAS.","TECNOLOGIAS SOCIAIS COMO ELEMENTOS DE TRABALHO PARA O ENSINO DE QUÍMICA ANALÍTICA E INSTRUMENTAL","TECNOLOGIAS SOCIAIS NO SEMIÁRIDO ALAGOANO","Titulo","TRÁFICO DE ANIMAIS SILVESTRES NO SUDOESTE DA BAHIA CAMINHOS E DESCAMINHOS!","TRATAMENTO DE ÁGUAS RESIDUAIS UTILIZANDO","ARGILA MODIFICADA COM MORINGA E NANOPARTÍCULAS DE PRATA","UM PANORAMA ACERCA DOS ESPAÇOS DE EDUCAÇÃO NÃO FORMAL NA MICRORREGIÃO DE ILHÉUS-ITABUNA","UMA PROPOSTA DE SOLUÇÃO OFFLINE UTILIZANDO DISPOSITIVOS ANDROID PARA DIÁRIOS ACADÊMICOS DO IFRN","USO DE PLANTAS MEDICINAIS PELA POPULAÇAO DO SETOR 4 NO MUNICÍPIO DE VALE DO PARAISO","RONDÔNIA BRASIL","UTILIZAÇÃO DE CASCAS DE FRUTAS COMO BIOCATALISADORES NA REAÇÃO NA PRODUÇÃO DE","BIOSSURFACTANTES","UTILIZAÇÃO DE EMBALAGENS TETRA PAK COMO PAINÉIS PARA MELHORIA DO CONFORTO TÉRMICO EM RESIDÊNCIAS","VIABILIZAÇÃO DA UTILIZAÇÃO DOS RESÍDUOS DO VIDRO NA CONFECÇÃO DE TIJOLOS DE SOLO CIMENTO"};
+		int qual_artigo = rand.nextInt(artigo_titulo.length+1);
 		String artigo_resumo = " É claro que a revolução dos costumes promove a alavancagem do remanejamento dos quadros funcionais. Nunca é demais lembrar o peso e o significado destes problemas, uma vez que a complexidade dos estudos efetuados não pode mais se dissociar das diretrizes de desenvolvimento para o futuro. O empenho em analisar o julgamento imparcial das eventualidades assume importantes posições no estabelecimento do sistema de participação geral.";
-		String artigo_arquivo = "c:/pagina/biblioteca/fpdf/font/artigo_"+artigo_titulo.trim().replaceAll(" ", "_")+".pdf";
-		int artigo_confirma_submissao = rand.nextInt(2);;
-		int artigo_qtd_revisores = rand.nextInt(6);
-		double artigo_media = (Math.random() * (10 - 1 + 1) + 1);
+		String artigo_arquivo = "c:/pagina/biblioteca/fpdf/font/artigo_"+artigo_titulo[qual_artigo].trim().replaceAll(" ", "_")+".pdf";
+		int artigo_qtd_revisores = (aleatoriar(1,6));
+		int artigo_qtd_autores = (aleatoriar(1,6));
+		double artigo_media = 0;
+		Artigo artigo = new Artigo(artigo_titulo[qual_artigo],artigo_resumo,artigo_arquivo,artigo_qtd_revisores, (float) artigo_media);
 
-		Artigo artigo = new Artigo(artigo_titulo,artigo_resumo,artigo_arquivo,artigo_confirma_submissao,artigo_qtd_revisores, (float) artigo_media);
-		//System.out.println(artigo);
-		//artCon.salvarArtigo(artigo);
+		List<ArtigoAutor> artigoAutorList = new ArrayList<>();
+		List<Usuario>usuarioList = con.findAll();
+		boolean existe = false;
+		//Sortear quais usuários seram autores do artigo
+		//Não permitir que um autor seja autor de um mesmo artigo mais de uma vez
+		for(int i=0;i<artigo_qtd_autores;i++){
+			int qual_autor = rand.nextInt(usuarioList.size());
+			ArtigoAutor artigoAutor = new ArtigoAutor();
+			for(int l=0;l<artigoAutorList.size();l++){
+				if(artigoAutorList.get(l).getUsuario().getUsuario_id() == usuarioList.get(qual_autor).getUsuario_id()){
+					existe = true;
+				}
+			}
+			if(!existe){
+				//adicionar o artigo ao autor_artigo
+				artigoAutor.setArtigo(artigo);
+				artigoAutor.setUsuario(usuarioList.get(qual_autor));
+				artigoAutor.setEmail_autor(usuarioList.get(qual_autor).getUsuario_email());
+				artigoAutor.setArtigo(artigo);
+				artigoAutorList.add(artigoAutor);
+				usuarioList.get(qual_autor).setUsuario_is_autor(1);
+				con.salvarUpdateUsuario(usuarioList.get(qual_autor));
+			}
+		}
+		//---------------
+		//Adicionar a lista de autores ao artigo
+		artigo.setArtigoAutorList(artigoAutorList);
+		artCon.salvarArtigo(artigo);
 		artCon.fechar();
+		con.fechar();
 	}
 
 	public Cartao AdicionarCartao(Usuario usuario) throws Exception {
@@ -141,26 +166,77 @@ public class ColecaoArtigo {
 		int qual_marca = rand.nextInt(marcaCartao.length);
 
 		Cartao cartao = new Cartao(numero_cartao, validade_cartao,marcaCartao[qual_marca],usuario);
-		System.out.println(cartao.toString());
 		carCon.fechar();
 		return cartao;
 	}
 
 	public void AdicionarRevisao() throws Exception{
-        Random rand = new Random();
-        String palavras[]={"barraca","barriga","burro","cachorro","carro","churrasco","corrida","corrupto","errado","erro","ferrado","ferradura","ferro","garra","garrafa","gorro","horrível","irritado","jarra","serra","serrote","sorriso","terremoto","torre","bateria","cadeira","camarão","coleira","coroa","faqueiro","feira","geladeira","gorila","jacaré","lírio","madeira","muro","pera","periquito","picareta","pirata","pirueta","tabuleiro","tubarão","zero","armário","árvore","barba","barbatana","barco","borboleta","calor","carteira","cartola","catorze","cobertor","colar","corda","formiga","garfo","guardanapo","harpa","margarida","martelo","partir","porta","ralador","revólver","sorvete","tartaruga","torneira","torta","urso","verdade","verde","alegre","braço","bravo","brinco","bruxa","bruxaria","cravo","creme","crocodilo","cruzado","dragão","estrela","fruta","grande","gravata","graveto","grilo","igreja","lágrima","livro","madrugada","pedra","praia","prato","prédio","prego","primavera","refresco","trela","três","trevo","truque","zebra","assado","assadura","assobio","massa","missa","nosso","osso","passado","passagem","pássaro","passeio","passo","pêssego","pessoa","pressa","sessenta","sossegado","sossego","tosse","tossir","vassoura","capacete","cebola","cedo","cego","ceia","cena","cenoura","cereja","cesta","cidade","cigano","cigarro","cinema","circo","cisme","hélice","Lúcia","piscina","avião","balão","botão","camarão","caminhão","cidadão","dragão","feijão","fogão","irmão","leão","limão","mamão","melão","pavão","pião","televisão","tubarão","algema","colégio","frigideira","gelado","gelatina","gelo","gema","gêmeo","general","Gilberto","ginásio","girafa","girassol","mágico","página","relógio","tigela","vegetal"};
-        double revisao_nota = (Math.random() * (10 - 1 + 1) + 1);
-        Date revisao_data_envio = new Date();
-        String comentario = "";
-        int quantas_palavras = rand.nextInt();
-        for(int i=0;i<quantas_palavras;i++){
-            int qual_nome = rand.nextInt(palavras.length);
-            comentario = comentario + " " + palavras[qual_nome];
-        }
+		Random rand = new Random();
+		ArtigoController artigoController = new ArtigoController();
+		UsuarioController usuarioController = new UsuarioController();
+		RevisaoController revisaoController = new RevisaoController();
 
-        Revisao revisao = new Revisao((float)revisao_nota,revisao_data_envio,comentario);
+        List<Artigo> artigoList = artigoController.findAll();
+		List<Usuario> usuarioList = usuarioController.findUsuarioRevisor();
+		List<Usuario> revisores = new ArrayList<>();
+
+		for(int i=0;i<artigoList.size();i++){
+			int quant_revisores = artigoList.get(i).artigo_qtd_revisores;
+			float media = 0;
+			for(int j=0;j<quant_revisores;j++){
+				Revisao revisao = gerarRevisao();
+				media = media + revisao.getRevisao_nota();
+				int qual_revisor = rand.nextInt(usuarioList.size());
+				if(revisores.contains(usuarioList.get(qual_revisor))){
+					qual_revisor = rand.nextInt(usuarioList.size());
+				}
+				revisao.setUsuario(usuarioList.get(qual_revisor));
+				revisao.setArtigo(artigoList.get(i));
+				usuarioList.get(qual_revisor).setRevisao(revisao);
+				revisores.add(usuarioList.get(qual_revisor));
+				usuarioController.salvarUpdateUsuario(usuarioList.get(qual_revisor));
+			}
+		}
+
+		revisaoController.fechar();
+		artigoController.fechar();
+		usuarioController.fechar();
     }
 
+    public void calcularMedia() throws Exception{
+	    ArtigoController artigoController = new ArtigoController();
+	    RevisaoController revisaoController = new RevisaoController();
+
+	    List<Artigo> artigoList = artigoController.findAll();
+	    for(int i=0;i<artigoList.size();i++){
+			List<Revisao> revisaoList = revisaoController.findRevisaoByArtigo(artigoList.get(i).artigo_id);
+			float media = 0;
+			for(int j=0;j<revisaoList.size();j++){
+				media = media + revisaoList.get(j).revisao_nota;
+			}
+			media = media/artigoList.get(i).getArtigo_qtd_revisores();
+			artigoList.get(i).setArtigo_media(media);
+			artigoController.atualizarArtigo(artigoList.get(i));
+		}
+
+        artigoController.fechar();
+        revisaoController.fechar();
+	}
+    private Revisao gerarRevisao(){
+		Random rand = new Random();
+		String palavras[]={"barraca","barriga","burro","cachorro","carro","churrasco","corrida","corrupto","errado","erro","ferrado","ferradura","ferro","garra","garrafa","gorro","horrível","irritado","jarra","serra","serrote","sorriso","terremoto","torre","bateria","cadeira","camarão","coleira","coroa","faqueiro","feira","geladeira","gorila","jacaré","lírio","madeira","muro","pera","periquito","picareta","pirata","pirueta","tabuleiro","tubarão","zero","armário","árvore","barba","barbatana","barco","borboleta","calor","carteira","cartola","catorze","cobertor","colar","corda","formiga","garfo","guardanapo","harpa","margarida","martelo","partir","porta","ralador","revólver","sorvete","tartaruga","torneira","torta","urso","verdade","verde","alegre","braço","bravo","brinco","bruxa","bruxaria","cravo","creme","crocodilo","cruzado","dragão","estrela","fruta","grande","gravata","graveto","grilo","igreja","lágrima","livro","madrugada","pedra","praia","prato","prédio","prego","primavera","refresco","trela","três","trevo","truque","zebra","assado","assadura","assobio","massa","missa","nosso","osso","passado","passagem","pássaro","passeio","passo","pêssego","pessoa","pressa","sessenta","sossegado","sossego","tosse","tossir","vassoura","capacete","cebola","cedo","cego","ceia","cena","cenoura","cereja","cesta","cidade","cigano","cigarro","cinema","circo","cisme","hélice","Lúcia","piscina","avião","balão","botão","camarão","caminhão","cidadão","dragão","feijão","fogão","irmão","leão","limão","mamão","melão","pavão","pião","televisão","tubarão","algema","colégio","frigideira","gelado","gelatina","gelo","gema","gêmeo","general","Gilberto","ginásio","girafa","girassol","mágico","página","relógio","tigela","vegetal"};
+		double revisao_nota = aleatoriar(1,10);
+		Date revisao_data_envio = new Date();
+		String comentario = "";
+		int quantas_palavras =  aleatoriar(1,15);
+		for(int i=0;i<quantas_palavras;i++){
+			int qual_nome = rand.nextInt(palavras.length);
+			comentario = comentario + " " + palavras[qual_nome];
+		}
+
+		Revisao revisao = new Revisao((float)revisao_nota,revisao_data_envio,comentario);
+		return revisao;
+	}
 	private String gerarNomes(){
 		String[] nomes = {"Lucas", "Mateus", "Tiago", "Talita",
 				"Paloma", "Tarcio", "Gabriel", "Eduardo",
