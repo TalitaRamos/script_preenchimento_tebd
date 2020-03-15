@@ -26,7 +26,7 @@ public class ArtigoAutor {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="usuario_id",insertable=true, updatable=true)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     @Cascade(CascadeType.SAVE_UPDATE)
     private Usuario usuario;
 

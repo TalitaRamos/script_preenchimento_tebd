@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArtigoController {
@@ -47,6 +48,20 @@ public class ArtigoController {
         CriteriaQuery<Artigo> all = cq.select(rootEntry);
         TypedQuery<Artigo> allQuery = em.createQuery(all);
         return allQuery.getResultList();
+    }
+
+    public List<Artigo>findArtigoWithRevisao(){
+        List<Artigo> artigoAll = findAll();
+        List<Artigo> artigosSemRevisao = new ArrayList<>();
+        RevisaoController revisaoController = new RevisaoController();
+        for(int i=0;i<artigoAll.size();i++){
+            if(artigoAll.get(i).getRevisaoList().size()<=0){
+                artigosSemRevisao.add(artigoAll.get(i));
+            }
+
+        }
+        revisaoController.fechar();
+        return  artigosSemRevisao;
     }
 
     public void fechar() {

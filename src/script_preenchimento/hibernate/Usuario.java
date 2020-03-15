@@ -138,17 +138,17 @@ public class Usuario {
         this.revisao = revisao;
     }
 
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "usuario_id=" + usuario_id +
-                ", usuario_nome='" + usuario_nome + '\'' +
-                ", usuario_endereco='" + usuario_endereco + '\'' +
-                ", usuario_telefone='" + usuario_telefone + '\'' +
-                ", usuario_email='" + usuario_email + '\'' +
-                ", usuario_local_trabalho='" + usuario_local_trabalho + '\'' +
-                ", usuario_is_revisor=" + usuario_is_revisor +
-                ", usuario_is_autor=" + usuario_is_autor +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Usuario{" +
+//                "usuario_id=" + usuario_id +
+//                ", usuario_nome='" + usuario_nome + '\'' +
+//                ", usuario_endereco='" + usuario_endereco + '\'' +
+//                ", usuario_telefone='" + usuario_telefone + '\'' +
+//                ", usuario_email='" + usuario_email + '\'' +
+//                ", usuario_local_trabalho='" + usuario_local_trabalho + '\'' +
+//                ", usuario_is_revisor=" + usuario_is_revisor +
+//                ", usuario_is_autor=" + usuario_is_autor +
+//                '}';
+//    }
 }

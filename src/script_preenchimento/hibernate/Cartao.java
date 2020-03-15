@@ -71,13 +71,13 @@ public class Cartao {
     }
 
 
-    @Override
-    public String toString() {
-        return "Cartao{" +
-                "cartao_id=" + cartao_id +
-                ", cartao_numero='" + cartao_numero + '\'' +
-                ", cartao_data_vencimento='" + cartao_data_vencimento + '\'' +
-                ", cartao_marca='" + cartao_marca + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Cartao{" +
+//                "cartao_id=" + cartao_id +
+//                ", cartao_numero='" + cartao_numero + '\'' +
+//                ", cartao_data_vencimento='" + cartao_data_vencimento + '\'' +
+//                ", cartao_marca='" + cartao_marca + '\'' +
+//                '}';
+//    }
 }

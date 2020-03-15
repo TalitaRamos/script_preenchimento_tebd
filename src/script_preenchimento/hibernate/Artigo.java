@@ -104,15 +104,15 @@ public class Artigo {
         this.revisaoList = revisaoList;
     }
 
-    @Override
-    public String toString() {
-        return "Artigo{" +
-                "artigo_id=" + artigo_id +
-                ", artigo_titulo='" + artigo_titulo + '\'' +
-                ", artigo_resumo='" + artigo_resumo + '\'' +
-                ", artigo_arquivo='" + artigo_arquivo + '\'' +
-                ", artigo_qtd_revisores=" + artigo_qtd_revisores +
-                ", artigo_media=" + artigo_media +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Artigo{" +
+//                "artigo_id=" + artigo_id +
+//                ", artigo_titulo='" + artigo_titulo + '\'' +
+//                ", artigo_resumo='" + artigo_resumo + '\'' +
+//                ", artigo_arquivo='" + artigo_arquivo + '\'' +
+//                ", artigo_qtd_revisores=" + artigo_qtd_revisores +
+//                ", artigo_media=" + artigo_media +
+//                '}';
+//    }
 }

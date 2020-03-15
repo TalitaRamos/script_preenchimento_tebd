@@ -31,9 +31,10 @@ public class Revisao {
 
     @ManyToOne
     @JoinColumn(name="artigo_id",insertable=true, updatable=true)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Artigo artigo;
+
 
     public Revisao() {
     }
