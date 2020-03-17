@@ -9,23 +9,23 @@ public class ColecaoArtigo {
 	private void preencherBanco(ColecaoArtigo cp){
 		try {
 			//ADICIONAR USUÁRIOS
-//		    for(int i=0;i<10000;i++){
-//                cp.AdicionarUsuario();
-//            }
-//			UsuarioController con = new UsuarioController();
-//		    List<Usuario>usuarioList = con.findAll();
-//		    //ADICONAR CARTÕES
-//		    for(int j=0;j<usuarioList.size();j++){
-//				Cartao cartao = cp.AdicionarCartao(usuarioList.get(j));
-//				con.AdicionarUsuarioCartao(usuarioList.get(j),cartao,PREENCHER);
-//			}
-//		    con.fechar();
+		    for(int i=0;i<10000;i++){
+                cp.AdicionarUsuario();
+            }
+			UsuarioController con = new UsuarioController();
+		    List<Usuario>usuarioList = con.findAll();
+		    //ADICONAR CARTÕES
+		    for(int j=0;j<usuarioList.size();j++){
+				Cartao cartao = cp.AdicionarCartao(usuarioList.get(j));
+				con.AdicionarUsuarioCartao(usuarioList.get(j),cartao,PREENCHER);
+			}
+		    con.fechar();
 		    //ADICONAR ARTIGOS
-//		    for(int l=0;l<3000;l++){
-//				cp.AdicionarArtigo();
-//			}
+		    for(int l=0;l<3000;l++){
+				cp.AdicionarArtigo();
+			}
 			//ADICONAR REVISAO
-			//cp.AdicionarRevisao();
+			cp.AdicionarRevisao();
 		    //CALCULAR MEDIA
 			cp.calcularMedia();
 		} catch (Exception e) {
