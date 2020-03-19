@@ -76,7 +76,7 @@ public class ListArtigos {
     public void adicionar(MongoCollection<Document> collection)throws Exception{
         try {
             Document document = new Document();
-            document.put("_artigo_id", 10000);
+            document.put("_artigo_id", 25000);
             document.put("artigo_resumo", "A redação deve ser feita com frases curtas e objetivas, organizadas de acordo com a estrutura do trabalho, dando destaque a cada uma das partes abordadas, assim apresentadas: Introdução - Informar, em poucas palavras, o contexto em que o trabalho se insere, sintetizando a problemática estudada. Objetivo - Deve ser explicitado claramente. ");
             document.put("artigo_arquivo", "c:/pagina/biblioteca/fpdf/font/artigo_A_redação_deve_ser_feita_com_frases_curtas_e_objetivas_IFPB.pdf");
             document.put("arquivo_qtd_revisores", 2);
